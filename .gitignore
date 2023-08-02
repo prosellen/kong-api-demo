@@ -1,0 +1,12 @@
+.DS_Store
+
+.docker/nginx/certs/*.pem
+.docker/fileStorage
+
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+**/.env
+docker-compose.override.yml
+/.idea/

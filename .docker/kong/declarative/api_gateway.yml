@@ -1,0 +1,62 @@
+_format_version: "3.0"
+_transform: true
+
+# Upstream service to connect to (localhost:8080)
+services:
+  - name: kong_api_demo_service
+    host: host.docker.internal
+    port: 4000
+    protocol: http
+# Routes to use with the service "kong_api_demo_service" defined above
+routes:
+  # Route all incoming routes to the service created above ...
+  - name: kong_api_demo_route
+    service: kong_api_demo_service
+    paths:
+      - /api/
+    strip_path: true
+  # ... and a special route for protected resources to be used below
+  - name: kong_api_demo_protected
+    service: kong_api_demo_service
+    paths:
+      - /api/protected/
+    strip_path: true
+# Plugins
+plugins:
+  - name: cors
+    service: kong_api_demo_service
+    config:
+      origins:
+        - http://localhost:5173
+      exposed_headers:
+        - Correlation-ID
+  - name: correlation-id
+    service: kong_api_demo_service
+    config:
+      header_name: Correlation-ID
+      generator: uuid
+      echo_downstream: true
+  # Use JWT plugin to check the "kong_api_demo_protected" route created above under "routes"
+  - name: jwt
+    service: kong_api_demo_service
+    enabled: true
+    route: kong_api_demo_protected
+    config:
+      key_claim_name: kid
+      secret_is_base64: false
+      run_on_preflight: true
+      claims_to_verify:
+        - exp
+# Defines a "consumer" - which is the Auth0 publishing the JWT used in this case
+consumers:
+  - username: auth0
+# Defines the secret to be used to check the JWT
+jwt_secrets:
+  - consumer: auth0
+    secret: this-is-a-dummy-value
+    algorithm: RS256
+    key: dqVeGigzuTz-IF0V63ZmB
+    rsa_public_key: |
+      -----BEGIN PUBLIC KEY-----
+      MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0cf+k/R0gi/2+N0sY9V1F70KnseoMXVK5kV0ZKrTSK0lRu7mODdQzxNVAy96ESLvk1Q5QFdiTzhwTRKTDvr7DzpGILtZ6ZksowaHw4kpM7867W81NLHQGaLm0hSOynPYjEDEJsw76mCKXLvfX6wutug3NwD6BpyfUR2NYgt05s62bcqO0NzRFUP4BnRVBed+ZL3G32BK95MgFLT5vuZSq8/mOW46l4ejcjJZjWzfFwupX11m7ISrGl/JVZt1z3BYLJOVNqMt8Igrr8godfcL/tXY/t+7YMOm2h1Serw3JGRat5wnkJmUibnbGo5Il9HJSXmrWw2NPcTUUa0s6Ot72wIDAQAB
+      -----END PUBLIC KEY-----

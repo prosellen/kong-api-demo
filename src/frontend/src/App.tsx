@@ -39,7 +39,7 @@ export const App = () => {
         showResult: true,
         apiMessage: responseData,
       });
-    } catch (error) {
+    } catch (error: any) {
       setState({
         ...state,
         error: error.error,

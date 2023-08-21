@@ -5,7 +5,7 @@ _transform: true
 services:
   - name: kong_api_demo_service
     host: host.docker.internal
-    port: 4000
+    port: 8000
     protocol: http
 # Routes to use with the service "kong_api_demo_service" defined above
 routes:
@@ -14,20 +14,20 @@ routes:
     service: kong_api_demo_service
     paths:
       - /api/
-    strip_path: true
+    strip_path: false
   # ... and a special route for protected resources to be used below
   - name: kong_api_demo_protected
     service: kong_api_demo_service
     paths:
       - /api/protected/
-    strip_path: true
+    strip_path: false
 # Plugins
 plugins:
   - name: cors
     service: kong_api_demo_service
     config:
       origins:
-        - http://localhost:5173
+        - http://localhost:3000
       exposed_headers:
         - Correlation-ID
   - name: correlation-id

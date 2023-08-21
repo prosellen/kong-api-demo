@@ -1,5 +1,8 @@
 .DS_Store
 
+*.drawio.bkp
+*.drawio.dtmp
+
 .docker/nginx/certs/*.pem
 .docker/fileStorage
 

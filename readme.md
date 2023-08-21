@@ -1,6 +1,6 @@
 # Kong API Demo
 
-## Kong Konfiguration
+## Kong Configuration
 
 Kong provides a [JWT plugin](https://docs.konghq.com/hub/kong-inc/jwt/) to handle the verification of JWTs. Once configured, only access tokens signed by the authentication server are allowed to access a certain route.
 

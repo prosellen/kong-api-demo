@@ -1,0 +1,49 @@
+version: "3.8"
+
+# Services
+services:
+  # Frontend - Static Files
+  frontend:
+    build: ./src/frontend
+    ports:
+      - 3000:80
+    environment:
+      - PORT=80
+    depends_on:
+      # - api_gateway
+      - backend
+    networks:
+      - network-frontend
+
+  # API Gateway to connect the static frontend to the backend
+  # api_gateway:
+  #   build: ./.docker/kong/
+  #   ports:
+  #     - 8000:4000
+  #   environment:
+  #     - KONG_NGINX_HTTP_LOG_FORMAT=log_correlation_id '$$remote_addr $$http_x_request_id $$remote_user [$$time_local] \"$$request\" $$status $$body_bytes_sent \"$$http_referer\" \"$$http_user_agent\" Correlation-ID=\"$$http_Correlation_ID\"'
+  #     - KONG_PROXY_ACCESS_LOG=/dev/stdout log_correlation_id
+  #     - KONG_ADMIN_ACCESS_LOG=/dev/stdout log_correlation_id
+  #     - KONG_PROXY_ERROR_LOG=/dev/stderr
+  #     - KONG_ADMIN_ERROR_LOG=/dev/stderr
+  #   depends_on:
+  #     - backend
+  #   networks:
+  #     - network-frontend
+  #     - network-backend
+
+  # Backend Service
+  backend:
+    build: ./src/backend
+    expose:
+      - 4000
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./.docker/fileStorage/:${FILE_STORAGE_PATH}
+    networks:
+      - network-backend
+
+networks:
+  network-frontend:
+  network-backend:

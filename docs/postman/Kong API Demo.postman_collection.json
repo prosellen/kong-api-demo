@@ -1,0 +1,175 @@
+{
+	"info": {
+		"_postman_id": "f48f5af1-2e66-4b5e-af45-8e1a962b1b09",
+		"name": "Kong API Demo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25263874",
+		"_collection_link": "https://lively-capsule-351396.postman.co/workspace/Kong-API-Demo~db43a34f-300a-4fc8-8f2a-1faee2bbe4f4/collection/25263874-f48f5af1-2e66-4b5e-af45-8e1a962b1b09?action=share&source=collection_link&creator=25263874"
+	},
+	"item": [
+		{
+			"name": "/api/ - Unprotected Endpoint",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{API_GATEWAY_URI}}/api/",
+					"host": [
+						"{{API_GATEWAY_URI}}"
+					],
+					"path": [
+						"api",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/protected/ - Only accessible with JWT",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{API_GATEWAY_URI}}/api/protected/",
+					"host": [
+						"{{API_GATEWAY_URI}}"
+					],
+					"path": [
+						"api",
+						"protected",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "authRequestParams",
+				"value": [
+					{
+						"key": "audience",
+						"value": "{{AUDIENCE}}",
+						"enabled": true,
+						"send_as": "request_url"
+					}
+				],
+				"type": "any"
+			},
+			{
+				"key": "scope",
+				"value": "profile email openid",
+				"type": "string"
+			},
+			{
+				"key": "clientSecret",
+				"value": "{{CLIENT_SECRET}}",
+				"type": "string"
+			},
+			{
+				"key": "clientId",
+				"value": "{{CLIENT_ID}}",
+				"type": "string"
+			},
+			{
+				"key": "redirect_uri",
+				"value": "{{FRONTEND_URI}}",
+				"type": "string"
+			},
+			{
+				"key": "tokenRequestParams",
+				"value": [],
+				"type": "any"
+			},
+			{
+				"key": "grant_type",
+				"value": "authorization_code_with_pkce",
+				"type": "string"
+			},
+			{
+				"key": "refreshRequestParams",
+				"value": [],
+				"type": "any"
+			},
+			{
+				"key": "tokenName",
+				"value": "Kong API Demo",
+				"type": "string"
+			},
+			{
+				"key": "challengeAlgorithm",
+				"value": "S256",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "admin@example.com",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "$Yf.3mDX^AnvxC9Rw@ZU",
+				"type": "string"
+			},
+			{
+				"key": "authUrl",
+				"value": "https://kong-api-demo.eu.auth0.com/authorize",
+				"type": "string"
+			},
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			},
+			{
+				"key": "client_authentication",
+				"value": "header",
+				"type": "string"
+			},
+			{
+				"key": "accessTokenUrl",
+				"value": "https://kong-api-demo.eu.auth0.com/oauth/token",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
